@@ -1,0 +1,13 @@
+/Users/Guest/Desktop/QueenAttack.Solution/QueenAttack.Tests/bin/Debug/netcoreapp1.1/Microsoft.VisualStudio.TestPlatform.MSTest.TestAdapter.dll
+/Users/Guest/Desktop/QueenAttack.Solution/QueenAttack.Tests/bin/Debug/netcoreapp1.1/Microsoft.VisualStudio.TestPlatform.MSTestAdapter.PlatformServices.Interface.dll
+/Users/Guest/Desktop/QueenAttack.Solution/QueenAttack.Tests/bin/Debug/netcoreapp1.1/Microsoft.VisualStudio.TestPlatform.MSTestAdapter.PlatformServices.dll
+/Users/Guest/Desktop/QueenAttack.Solution/QueenAttack.Tests/bin/Debug/netcoreapp1.1/QueenAttack.Tests.deps.json
+/Users/Guest/Desktop/QueenAttack.Solution/QueenAttack.Tests/bin/Debug/netcoreapp1.1/QueenAttack.Tests.runtimeconfig.json
+/Users/Guest/Desktop/QueenAttack.Solution/QueenAttack.Tests/bin/Debug/netcoreapp1.1/QueenAttack.Tests.runtimeconfig.dev.json
+/Users/Guest/Desktop/QueenAttack.Solution/QueenAttack.Tests/bin/Debug/netcoreapp1.1/QueenAttack.Tests.dll
+/Users/Guest/Desktop/QueenAttack.Solution/QueenAttack.Tests/bin/Debug/netcoreapp1.1/QueenAttack.Tests.pdb
+/Users/Guest/Desktop/QueenAttack.Solution/QueenAttack.Tests/bin/Debug/netcoreapp1.1/QueenAttack.dll
+/Users/Guest/Desktop/QueenAttack.Solution/QueenAttack.Tests/bin/Debug/netcoreapp1.1/QueenAttack.pdb
+/Users/Guest/Desktop/QueenAttack.Solution/QueenAttack.Tests/obj/Debug/netcoreapp1.1/QueenAttack.Tests.AssemblyInfo.cs
+/Users/Guest/Desktop/QueenAttack.Solution/QueenAttack.Tests/obj/Debug/netcoreapp1.1/QueenAttack.Tests.dll
+/Users/Guest/Desktop/QueenAttack.Solution/QueenAttack.Tests/obj/Debug/netcoreapp1.1/QueenAttack.Tests.pdb

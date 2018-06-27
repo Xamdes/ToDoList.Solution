@@ -1,0 +1,6 @@
+/Users/Guest/Desktop/ClockAngle.Solution/ClockAngle/bin/Debug/netcoreapp1.1/ClockAngle.deps.json
+/Users/Guest/Desktop/ClockAngle.Solution/ClockAngle/bin/Debug/netcoreapp1.1/ClockAngle.dll
+/Users/Guest/Desktop/ClockAngle.Solution/ClockAngle/bin/Debug/netcoreapp1.1/ClockAngle.pdb
+/Users/Guest/Desktop/ClockAngle.Solution/ClockAngle/obj/Debug/netcoreapp1.1/ClockAngle.AssemblyInfo.cs
+/Users/Guest/Desktop/ClockAngle.Solution/ClockAngle/obj/Debug/netcoreapp1.1/ClockAngle.dll
+/Users/Guest/Desktop/ClockAngle.Solution/ClockAngle/obj/Debug/netcoreapp1.1/ClockAngle.pdb

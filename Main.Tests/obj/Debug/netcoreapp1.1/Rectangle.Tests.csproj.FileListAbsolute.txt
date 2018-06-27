@@ -1,0 +1,13 @@
+/Users/Guest/Desktop/Shapes.Solution/Shapes.Tests/bin/Debug/netcoreapp1.1/Rectangle.Tests.deps.json
+/Users/Guest/Desktop/Shapes.Solution/Shapes.Tests/bin/Debug/netcoreapp1.1/Rectangle.Tests.runtimeconfig.json
+/Users/Guest/Desktop/Shapes.Solution/Shapes.Tests/bin/Debug/netcoreapp1.1/Rectangle.Tests.runtimeconfig.dev.json
+/Users/Guest/Desktop/Shapes.Solution/Shapes.Tests/obj/Debug/netcoreapp1.1/Rectangle.Tests.AssemblyInfo.cs
+/Users/Guest/Desktop/Shapes.Solution/Shapes.Tests/bin/Debug/netcoreapp1.1/Microsoft.VisualStudio.TestPlatform.MSTest.TestAdapter.dll
+/Users/Guest/Desktop/Shapes.Solution/Shapes.Tests/bin/Debug/netcoreapp1.1/Microsoft.VisualStudio.TestPlatform.MSTestAdapter.PlatformServices.Interface.dll
+/Users/Guest/Desktop/Shapes.Solution/Shapes.Tests/bin/Debug/netcoreapp1.1/Microsoft.VisualStudio.TestPlatform.MSTestAdapter.PlatformServices.dll
+/Users/Guest/Desktop/Shapes.Solution/Shapes.Tests/bin/Debug/netcoreapp1.1/Rectangle.Tests.dll
+/Users/Guest/Desktop/Shapes.Solution/Shapes.Tests/bin/Debug/netcoreapp1.1/Rectangle.Tests.pdb
+/Users/Guest/Desktop/Shapes.Solution/Shapes.Tests/bin/Debug/netcoreapp1.1/Rectangle.dll
+/Users/Guest/Desktop/Shapes.Solution/Shapes.Tests/bin/Debug/netcoreapp1.1/Rectangle.pdb
+/Users/Guest/Desktop/Shapes.Solution/Shapes.Tests/obj/Debug/netcoreapp1.1/Rectangle.Tests.dll
+/Users/Guest/Desktop/Shapes.Solution/Shapes.Tests/obj/Debug/netcoreapp1.1/Rectangle.Tests.pdb

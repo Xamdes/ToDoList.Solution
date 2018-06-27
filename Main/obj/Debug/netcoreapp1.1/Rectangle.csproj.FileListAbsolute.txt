@@ -1,0 +1,6 @@
+/Users/Guest/Desktop/Shapes.Solution/Shapes/bin/Debug/netcoreapp1.1/Rectangle.deps.json
+/Users/Guest/Desktop/Shapes.Solution/Shapes/bin/Debug/netcoreapp1.1/Rectangle.dll
+/Users/Guest/Desktop/Shapes.Solution/Shapes/bin/Debug/netcoreapp1.1/Rectangle.pdb
+/Users/Guest/Desktop/Shapes.Solution/Shapes/obj/Debug/netcoreapp1.1/Rectangle.AssemblyInfo.cs
+/Users/Guest/Desktop/Shapes.Solution/Shapes/obj/Debug/netcoreapp1.1/Rectangle.dll
+/Users/Guest/Desktop/Shapes.Solution/Shapes/obj/Debug/netcoreapp1.1/Rectangle.pdb

@@ -1,0 +1,6 @@
+/Users/Guest/Desktop/ToDoList.Solution/Main/bin/Debug/netcoreapp1.1/Main.deps.json
+/Users/Guest/Desktop/ToDoList.Solution/Main/obj/Debug/netcoreapp1.1/Main.AssemblyInfo.cs
+/Users/Guest/Desktop/ToDoList.Solution/Main/bin/Debug/netcoreapp1.1/Main.dll
+/Users/Guest/Desktop/ToDoList.Solution/Main/bin/Debug/netcoreapp1.1/Main.pdb
+/Users/Guest/Desktop/ToDoList.Solution/Main/obj/Debug/netcoreapp1.1/Main.dll
+/Users/Guest/Desktop/ToDoList.Solution/Main/obj/Debug/netcoreapp1.1/Main.pdb
