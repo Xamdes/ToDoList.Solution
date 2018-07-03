@@ -1,0 +1,2 @@
+cd ../ToDoList/
+dotnet run
