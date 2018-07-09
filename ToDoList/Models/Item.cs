@@ -59,6 +59,23 @@ namespace ToDoList.Models
       DB.RunSqlCommand(commandText,parameters);
     }
 
+    public static Item Find(int id)
+    {
+      int itemId = -1;
+      string itemDescription = "";
+      DB.OpenConnection();
+      string commandText = @"SELECT * FROM 'items' WHERE id = @thisId;";
+      MySqlDataReader rdr = DB.ReadConnection(commandText);
+      while(rdr.Read())
+      {
+        itemId = rdr.GetInt32(0);
+        itemDescription = rdr.GetString(1);
+      }
+      DB.CloseConnection();
+      return (new Item(itemDescription,itemId));
+
+    }
+
     public static void ClearAll(bool saveUniqueIds)
     {
       //_instances.Clear();
