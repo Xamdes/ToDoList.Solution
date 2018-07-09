@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 cd ..
 dotnet restore ./ToDoList
 dotnet build ./ToDoList

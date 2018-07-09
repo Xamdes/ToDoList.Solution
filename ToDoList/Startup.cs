@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -41,10 +41,16 @@ namespace ToDoList
         name: "default",
         template: "{controller=Home}/{action=Index}/{id?}");
       });
+
       app.Run(async (context) =>
       {
         await context.Response.WriteAsync("Hello World!");
       });
     }
+  }
+
+  public static class DBConfiguration
+  {
+    public static string ConnectionString = "server=localhost;user id=root;password=root;port=8889;database=sc_todolist;";
   }
 }
