@@ -55,9 +55,8 @@ namespace ToDoList.Models
     {
       string commandText = @"INSERT INTO items (description) VALUES (@Description);";
       List<MySqlParameter> parameters = new List<MySqlParameter>(){};
-      MySqlParameter param = new MySqlParameter("@Description", _description);
-      parameters.Add(param);
-      DB.CreateCommand(commandText,parameters);
+      DB.AddParameters(parameters,"@Description", _description);
+      DB.RunSqlCommand(commandText,parameters);
     }
 
     public static void ClearAll(bool saveUniqueIds)
@@ -66,12 +65,12 @@ namespace ToDoList.Models
       if(saveUniqueIds)
       {
         string commandText = @"DELETE FROM items";
-        DB.CreateCommand(commandText);
+        DB.RunSqlCommand(commandText);
       }
       else
       {
         string commandText = @"TRUNCATE TABLE items;";
-        DB.CreateCommand(commandText);
+        DB.RunSqlCommand(commandText);
       }
     }
 

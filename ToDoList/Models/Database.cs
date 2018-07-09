@@ -8,7 +8,7 @@ namespace ToDoList.Models
   public class DB
   {
     private static MySqlConnection _conn;
-    private static string connectionString = DBConfiguration.ConnectionString;
+    private static string _connectionString = DBConfiguration.ConnectionString;
 
     public static MySqlConnection GetConnection()
     {
@@ -17,7 +17,7 @@ namespace ToDoList.Models
 
     public static void OpenConnection()
     {
-      _conn = new MySqlConnection(connectionString);
+      _conn = new MySqlConnection(_connectionString);
       _conn.Open();
     }
 
@@ -30,24 +30,22 @@ namespace ToDoList.Models
       }
     }
 
-    public static void CreateCommand(string commandText)
+    public static void AddParameters(List<MySqlParameter> parameters, string command, string parameter)
     {
-      OpenConnection();
-      MySqlCommand cmd = _conn.CreateCommand() as MySqlCommand;
-      cmd.CommandText = commandText;
-      cmd.ExecuteNonQuery();
-      CloseConnection();
+      parameters.Add(new MySqlParameter(command, parameter));
     }
 
-    public static void CreateCommand(string commandText, List<MySqlParameter> commandList)
+    public static void RunSqlCommand(string commandText,List<MySqlParameter> parameters = null)
     {
-      //MySqlConnection conn = DB.Connection();
       OpenConnection();
       MySqlCommand cmd = _conn.CreateCommand() as MySqlCommand;
       cmd.CommandText = commandText;
-      foreach (MySqlParameter param in commandList)
+      if(parameters!=null)
       {
-        cmd.Parameters.Add(param);
+        foreach (MySqlParameter parameter in parameters)
+        {
+          cmd.Parameters.Add(parameter);
+        }
       }
       cmd.ExecuteNonQuery();
       CloseConnection();
