@@ -7,59 +7,57 @@ namespace ToDoList.Models
 {
   public class DB
   {
-    public static MySqlConnection Connection()
+    private static MySqlConnection _conn;
+    private static string connectionString = DBConfiguration.ConnectionString;
+
+    public static MySqlConnection GetConnection()
     {
-      MySqlConnection conn = new MySqlConnection(DBConfiguration.ConnectionString);
-      return conn;
+      return _conn;
     }
 
-    public static MySqlConnection Open()
+    public static void OpenConnection()
     {
-      MySqlConnection conn = DB.Connection();
-      conn.Open();
-      return conn;
+      _conn = new MySqlConnection(connectionString);
+      _conn.Open();
     }
 
-    public static void Close(MySqlConnection conn)
+    public static void CloseConnection()
     {
-      conn.Close();
-      if(conn!=null)
+      _conn.Close();
+      if(_conn!=null)
       {
-        conn.Dispose();
+        _conn.Dispose();
       }
     }
 
     public static void CreateCommand(string commandText)
     {
-      MySqlConnection conn = DB.Connection();
-      conn.Open();
-      MySqlCommand cmd = conn.CreateCommand() as MySqlCommand;
+      OpenConnection();
+      MySqlCommand cmd = _conn.CreateCommand() as MySqlCommand;
       cmd.CommandText = commandText;
       cmd.ExecuteNonQuery();
-      conn.Close();
-      if(conn!=null)
-      {
-        conn.Dispose();
-      }
+      CloseConnection();
     }
 
     public static void CreateCommand(string commandText, List<MySqlParameter> commandList)
     {
-      MySqlConnection conn = DB.Connection();
-      conn.Open();
-      MySqlCommand cmd = conn.CreateCommand() as MySqlCommand;
+      //MySqlConnection conn = DB.Connection();
+      OpenConnection();
+      MySqlCommand cmd = _conn.CreateCommand() as MySqlCommand;
       cmd.CommandText = commandText;
       foreach (MySqlParameter param in commandList)
       {
         cmd.Parameters.Add(param);
       }
       cmd.ExecuteNonQuery();
-      conn.Close();
-      if(conn!=null)
-      {
-        conn.Dispose();
-      }
+      CloseConnection();
     }
 
+    public static MySqlDataReader ReadConnection(string commandText)
+    {
+      MySqlCommand cmd = _conn.CreateCommand() as MySqlCommand;
+      cmd.CommandText = commandText;
+      return (cmd.ExecuteReader() as MySqlDataReader);
+    }
   }
 }

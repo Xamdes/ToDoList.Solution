@@ -32,7 +32,7 @@ namespace ToDoList.Controllers
     [HttpPost("/items/delete")]
     public ActionResult DeleteAll()
     {
-      Item.ClearAll();
+      Item.ClearAll(true);
       return View();
     }
   }

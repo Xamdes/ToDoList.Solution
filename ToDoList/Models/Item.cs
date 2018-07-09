@@ -21,11 +21,9 @@ namespace ToDoList.Models
     {
       //return _instances;
       List<Item> allItems = new List<Item>{};
-      MySqlConnection conn = DB.Connection();
-      conn.Open();
-      MySqlCommand cmd = conn.CreateCommand() as MySqlCommand;
-      cmd.CommandText = @"SELECT * FROM items;";
-      MySqlDataReader rdr = cmd.ExecuteReader() as MySqlDataReader;
+      DB.OpenConnection();
+      string commandText = @"SELECT * FROM items;";
+      MySqlDataReader rdr = DB.ReadConnection(commandText);
       while(rdr.Read())
       {
         int itemId = rdr.GetInt32(0);
@@ -33,11 +31,7 @@ namespace ToDoList.Models
         Item newItem = new Item(itemDescription, itemId);
         allItems.Add(newItem);
       }
-      conn.Close();
-      if(conn!=null)
-      {
-        conn.Dispose();
-      }
+      DB.CloseConnection();
       return allItems;
     }
 
@@ -59,13 +53,6 @@ namespace ToDoList.Models
 
     public void Save()
     {
-      //_instances.Add(this);
-      // MySqlConnection conn = DB.Open();
-      // MySqlCommand cmd = conn.CreateCommand() as MySqlCommand;
-      // cmd.CommandText = @"INSERT INTO items (description) VALUES (@Description);";
-      // cmd.Parameters.Add(new MySqlParameter("@Description", _description));
-      // cmd.ExecuteNonQuery();
-      // DB.Close(conn);
       string commandText = @"INSERT INTO items (description) VALUES (@Description);";
       List<MySqlParameter> parameters = new List<MySqlParameter>(){};
       MySqlParameter param = new MySqlParameter("@Description", _description);
@@ -73,19 +60,37 @@ namespace ToDoList.Models
       DB.CreateCommand(commandText,parameters);
     }
 
-    public static void ClearAll()
+    public static void ClearAll(bool saveUniqueIds)
     {
       //_instances.Clear();
-      MySqlConnection conn = DB.Connection();
-      conn.Open();
-      MySqlCommand cmd = conn.CreateCommand() as MySqlCommand;
-      cmd.CommandText = @"TRUNCATE TABLE items;";
-      cmd.ExecuteNonQuery();
-      conn.Close();
-      if(conn!=null)
+      if(saveUniqueIds)
       {
-        conn.Dispose();
+        string commandText = @"DELETE FROM items";
+        DB.CreateCommand(commandText);
       }
+      else
+      {
+        string commandText = @"TRUNCATE TABLE items;";
+        DB.CreateCommand(commandText);
+      }
+    }
+
+    public override bool Equals(System.Object otherItem)
+    {
+      if (otherItem is Item)
+      {
+        Item newItem = (Item) otherItem;
+        return this.GetDescription().Equals(newItem.GetDescription());
+      }
+      else
+      {
+        return false;
+      }
+    }
+
+    public override int GetHashCode()
+    {
+      return this.GetDescription().GetHashCode();
     }
   }
 }
