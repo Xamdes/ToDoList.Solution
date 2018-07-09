@@ -21,12 +21,12 @@ namespace ToDoList.Controllers
     }
 
     [HttpPost("/items")]
-    public ActionResult Create()
+    public ActionResult Create(string description)
     {
-      Item newItem = new Item (Request.Form["new-item"]);
+      Item newItem = new Item (description);
       newItem.Save();
-      List<Item> allItems = Item.GetAll();
-      return View("Index", allItems);
+      //List<Item> allItems = Item.GetAll();
+      return RedirectToAction("Index");
     }
 
     [HttpPost("/items/delete")]

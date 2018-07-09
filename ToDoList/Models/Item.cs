@@ -60,22 +60,32 @@ namespace ToDoList.Models
     public void Save()
     {
       //_instances.Add(this);
+      // MySqlConnection conn = DB.Open();
+      // MySqlCommand cmd = conn.CreateCommand() as MySqlCommand;
+      // cmd.CommandText = @"INSERT INTO items (description) VALUES (@Description);";
+      // cmd.Parameters.Add(new MySqlParameter("@Description", _description));
+      // cmd.ExecuteNonQuery();
+      // DB.Close(conn);
+      string commandText = @"INSERT INTO items (description) VALUES (@Description);";
+      List<MySqlParameter> parameters = new List<MySqlParameter>(){};
+      MySqlParameter param = new MySqlParameter("@Description", _description);
+      parameters.Add(param);
+      DB.CreateCommand(commandText,parameters);
+    }
+
+    public static void ClearAll()
+    {
+      //_instances.Clear();
       MySqlConnection conn = DB.Connection();
       conn.Open();
       MySqlCommand cmd = conn.CreateCommand() as MySqlCommand;
-      cmd.CommandText = @"INSERT INTO items (description) VALUES (@Description);";
-      cmd.Parameters.Add(new MySqlParameter("@Description", _description));
+      cmd.CommandText = @"TRUNCATE TABLE items;";
       cmd.ExecuteNonQuery();
       conn.Close();
       if(conn!=null)
       {
         conn.Dispose();
       }
-    }
-
-    public static void ClearAll()
-    {
-      //_instances.Clear();
     }
   }
 }
