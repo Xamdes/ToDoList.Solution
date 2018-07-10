@@ -54,17 +54,19 @@ namespace ToDoList.Models
     public void Save()
     {
       string commandText = @"INSERT INTO items (description) VALUES (@Description);";
-      List<MySqlParameter> parameters = new List<MySqlParameter>(){};
-      DB.AddParameters(parameters,"@Description", _description);
-      DB.RunSqlCommand(commandText,parameters);
+      DB.OpenConnection();
+      DB.AddParameter("@Description", _description);
+      DB.RunSqlCommand(commandText);
+      DB.CloseConnection();
     }
 
     public static Item Find(int id)
     {
       int itemId = -1;
       string itemDescription = "";
-      DB.OpenConnection();
       string commandText = @"SELECT * FROM 'items' WHERE id = @thisId;";
+      DB.OpenConnection();
+      DB.AddParameter("@thisId",id);
       MySqlDataReader rdr = DB.ReadConnection(commandText);
       while(rdr.Read())
       {
@@ -79,16 +81,24 @@ namespace ToDoList.Models
     public static void ClearAll(bool saveUniqueIds)
     {
       //_instances.Clear();
+      string commandText = "";
+      DB.OpenConnection();
       if(saveUniqueIds)
       {
-        string commandText = @"DELETE FROM items";
+        commandText = @"DELETE FROM items";
         DB.RunSqlCommand(commandText);
       }
       else
       {
-        string commandText = @"TRUNCATE TABLE items;";
+        commandText = @"TRUNCATE TABLE items;";
         DB.RunSqlCommand(commandText);
       }
+      DB.CloseConnection();
+    }
+
+    public static void ClearAll()
+    {
+      ClearAll(true);
     }
 
     public override bool Equals(System.Object otherItem)

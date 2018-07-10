@@ -11,6 +11,13 @@
 
 ## Specifications
 
+  * Connects to MySql database
+  * adds items to database
+  * retrieves items from database
+  * clears all items from database
+    * optionally resets auto-increment
+  * List all items on front end webpage
+
 ## License
 
 MIT License
