@@ -18,20 +18,18 @@ namespace ToDoList.Models
       _date = date;
     }
 
-    // Getters and Setters will go here
-    public static List<Item> GetAll()
+    public static List<Item> GetAll(string orderBy = "id", string order = "ASC")
     {
-      //return _instances;
       List<Item> allItems = new List<Item>{};
       DB.OpenConnection();
-      DB.SetCommand(@"SELECT * FROM items;");
+      DB.SetCommand(@"SELECT * FROM items ORDER BY "+orderBy+" "+order+";");
       MySqlDataReader rdr = DB.ReadConnection();
       while(rdr.Read())
       {
         int itemId = rdr.GetInt32(0);
         string itemDescription = rdr.GetString(1);
         DateTime date = rdr.GetDateTime(2);
-        Item newItem = new Item(itemDescription,date, itemId);
+        Item newItem = new Item(itemDescription,date,itemId);
         allItems.Add(newItem);
       }
       DB.CloseConnection();

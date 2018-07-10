@@ -15,6 +15,13 @@ namespace ToDoList.Controllers
       return View(allItems);
     }
 
+    [HttpGet("/items/date")]
+    public ActionResult IndexDate()
+    {
+      List<Item> allItems = Item.GetAll("date","ASC");
+      return View(allItems);
+    }
+
     [HttpGet("/items/new")]
     public ActionResult CreateForm()
     {

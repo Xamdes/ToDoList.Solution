@@ -33,9 +33,9 @@ namespace ToDoList.Models
       _cmd = null;
     }
 
-    public static void AddParameter(string command, Object parameter)
+    public static void AddParameter(string name, Object parameterValue)
     {
-      _cmd.Parameters.Add(new MySqlParameter(command, parameter));
+      _cmd.Parameters.Add(new MySqlParameter(name, parameterValue));
     }
 
     public static void SetCommand(string commandText)
