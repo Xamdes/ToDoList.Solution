@@ -22,8 +22,8 @@ namespace ToDoList.Models
       //return _instances;
       List<Item> allItems = new List<Item>{};
       DB.OpenConnection();
-      string commandText = @"SELECT * FROM items;";
-      MySqlDataReader rdr = DB.ReadConnection(commandText);
+      DB.SetCommand(@"SELECT * FROM items;");
+      MySqlDataReader rdr = DB.ReadConnection();
       while(rdr.Read())
       {
         int itemId = rdr.GetInt32(0);
@@ -58,10 +58,10 @@ namespace ToDoList.Models
 
     public void Save()
     {
-      string commandText = @"INSERT INTO items (description) VALUES (@Description);";
       DB.OpenConnection();
+      DB.SetCommand(@"INSERT INTO items (description) VALUES (@Description);");
       DB.AddParameter("@Description", _description);
-      DB.RunSqlCommand(commandText);
+      DB.RunSqlCommand();
       DB.CloseConnection();
     }
 
@@ -69,10 +69,10 @@ namespace ToDoList.Models
     {
       int itemId = -1;
       string itemDescription = "";
-      string commandText = @"SELECT * FROM items WHERE id=@thisId;";
       DB.OpenConnection();
+      DB.SetCommand(@"SELECT * FROM items WHERE id=@thisId;");
       DB.AddParameter("@thisId",id);
-      MySqlDataReader rdr = DB.ReadConnection(commandText);
+      MySqlDataReader rdr = DB.ReadConnection();
       while(rdr.Read())
       {
         itemId = rdr.GetInt32(0);
@@ -86,18 +86,14 @@ namespace ToDoList.Models
     public static void ClearAll(bool saveUniqueIds = true)
     {
       //_instances.Clear();
-      string commandText = "";
+      string commandText = @"DELETE FROM items";
       DB.OpenConnection();
-      if(saveUniqueIds)
-      {
-        commandText = @"DELETE FROM items";
-        DB.RunSqlCommand(commandText);
-      }
-      else
+      if(!saveUniqueIds)
       {
         commandText = @"TRUNCATE TABLE items;";
-        DB.RunSqlCommand(commandText);
       }
+      DB.SetCommand(commandText);
+      DB.RunSqlCommand();
       DB.CloseConnection();
     }
 

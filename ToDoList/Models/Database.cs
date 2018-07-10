@@ -8,8 +8,8 @@ namespace ToDoList.Models
   public class DB
   {
     private static MySqlConnection _conn;
+    private static MySqlCommand _cmd;
     private static string _connectionString = DBConfiguration.GetConnection();
-    private static List<MySqlParameter> _parameters;
 
     public static MySqlConnection GetConnection()
     {
@@ -18,9 +18,9 @@ namespace ToDoList.Models
 
     public static void OpenConnection()
     {
-      _parameters = new List<MySqlParameter>(){};
       _conn = new MySqlConnection(_connectionString);
       _conn.Open();
+      _cmd = _conn.CreateCommand() as MySqlCommand;
     }
 
     public static void CloseConnection()
@@ -30,40 +30,27 @@ namespace ToDoList.Models
       {
         _conn.Dispose();
       }
-      _parameters = null;
+      _cmd = null;
     }
 
     public static void AddParameter(string command, Object parameter)
     {
-      _parameters.Add(new MySqlParameter(command, parameter));
+      _cmd.Parameters.Add(new MySqlParameter(command, parameter));
     }
 
-    public static void RunSqlCommand(string commandText)
+    public static void SetCommand(string commandText)
     {
-      MySqlCommand cmd = _conn.CreateCommand() as MySqlCommand;
-      cmd.CommandText = commandText;
-      if(_parameters!=null)
-      {
-        foreach (MySqlParameter parameter in _parameters)
-        {
-          cmd.Parameters.Add(parameter);
-        }
-      }
-      cmd.ExecuteNonQuery();
+      _cmd.CommandText = commandText;
     }
 
-    public static MySqlDataReader ReadConnection(string commandText)
+    public static void RunSqlCommand()
     {
-      MySqlCommand cmd = _conn.CreateCommand() as MySqlCommand;
-      cmd.CommandText = commandText;
-      if(_parameters!=null)
-      {
-        foreach (MySqlParameter parameter in _parameters)
-        {
-          cmd.Parameters.Add(parameter);
-        }
-      }
-      return (cmd.ExecuteReader() as MySqlDataReader);
+      _cmd.ExecuteNonQuery();
+    }
+
+    public static MySqlDataReader ReadConnection()
+    {
+      return (_cmd.ExecuteReader() as MySqlDataReader);
     }
   }
 }
