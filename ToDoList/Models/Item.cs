@@ -41,6 +41,11 @@ namespace ToDoList.Models
       return true;
     }
 
+    public int GetId()
+    {
+      return _id;
+    }
+
     public string GetDescription()
     {
       return _description;
@@ -64,7 +69,7 @@ namespace ToDoList.Models
     {
       int itemId = -1;
       string itemDescription = "";
-      string commandText = @"SELECT * FROM 'items' WHERE id = @thisId;";
+      string commandText = @"SELECT * FROM items WHERE id=@thisId;";
       DB.OpenConnection();
       DB.AddParameter("@thisId",id);
       MySqlDataReader rdr = DB.ReadConnection(commandText);

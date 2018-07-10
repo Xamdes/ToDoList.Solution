@@ -20,12 +20,18 @@ namespace ToDoList.Controllers
       return View();
     }
 
+    [HttpGet("/items/{id}")]
+    public ActionResult Details(int id)
+    {
+      Item item = Item.Find(id);
+      return View(item);
+    }
+
     [HttpPost("/items")]
     public ActionResult Create(string description)
     {
       Item newItem = new Item (description);
       newItem.Save();
-      //List<Item> allItems = Item.GetAll();
       return RedirectToAction("Index");
     }
 

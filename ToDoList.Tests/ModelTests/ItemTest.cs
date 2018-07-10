@@ -12,7 +12,7 @@ namespace ToDoList.Tests
     {
 
     }
-    [TestInitialize]
+    [AssemblyInitialize]
     public void ItemTests()
     {
       DBConfiguration.SetConnection("server=localhost;user id=root;password=root;port=8889;database=sc_todolist_test;");
