@@ -8,7 +8,7 @@ namespace ToDoList.Models
   public class DB
   {
     private static MySqlConnection _conn;
-    private static string _connectionString = DBConfiguration.ConnectionString;
+    private static string _connectionString = DBConfiguration.GetConnection();
     private static List<MySqlParameter> _parameters;
 
     public static MySqlConnection GetConnection()
@@ -30,6 +30,7 @@ namespace ToDoList.Models
       {
         _conn.Dispose();
       }
+      _parameters = null;
     }
 
     public static void AddParameter(string command, Object parameter)

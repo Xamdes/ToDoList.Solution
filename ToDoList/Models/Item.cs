@@ -36,7 +36,7 @@ namespace ToDoList.Models
     }
 
     //Check if Unit Test setup correctly
-    public bool Default()
+    public static bool Default()
     {
       return true;
     }
@@ -78,7 +78,7 @@ namespace ToDoList.Models
 
     }
 
-    public static void ClearAll(bool saveUniqueIds)
+    public static void ClearAll(bool saveUniqueIds = true)
     {
       //_instances.Clear();
       string commandText = "";
@@ -94,11 +94,6 @@ namespace ToDoList.Models
         DB.RunSqlCommand(commandText);
       }
       DB.CloseConnection();
-    }
-
-    public static void ClearAll()
-    {
-      ClearAll(true);
     }
 
     public override bool Equals(System.Object otherItem)

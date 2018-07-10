@@ -10,14 +10,23 @@ namespace ToDoList.Tests
   {
     public void Dispose()
     {
+
+    }
+    [TestInitialize]
+    public void ItemTests()
+    {
+      DBConfiguration.SetConnection("server=localhost;user id=root;password=root;port=8889;database=sc_todolist_test;");
+    }
+    [ClassCleanup]
+    public static void Cleanup()
+    {
       Item.ClearAll();
     }
     [TestMethod]
     public void Return_True()
     {
       //Eventual Tests
-      Item list = new Item("NA");
-      Assert.AreEqual(true, list.Default());
+      Assert.AreEqual(true, Item.Default());
     }
     [TestMethod]
     public void GetDescription_ReturnsDescription_String()
@@ -25,8 +34,6 @@ namespace ToDoList.Tests
       //Arrange
       string description = "Walk the dog.";
       Item newItem = new Item(description);
-      newItem.Save();
-
       //Act
       string result = newItem.GetDescription();
 
@@ -51,16 +58,16 @@ namespace ToDoList.Tests
     public void GetDescription_ReturnsDescription_String_2nd()
     {
       //Arrange
-     string description = "Walk the dog.";
-     Item newItem = new Item(description);
-     newItem.Save();
+      string description = "Walk the dog.";
+      Item newItem = new Item(description);
+      newItem.Save();
 
-     //Act
-     List<Item> instances = Item.GetAll();
-     Item savedItem = instances[0];
+      //Act
+      List<Item> instances = Item.GetAll();
+      Item savedItem = instances[0];
 
-     //Assert
-     Assert.AreEqual(newItem.GetDescription(), savedItem.GetDescription());
+      //Assert
+      Assert.AreEqual(newItem.GetDescription(), savedItem.GetDescription());
     }
   }
 }
