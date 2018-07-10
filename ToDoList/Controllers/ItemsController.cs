@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using ToDoList.Models;
@@ -28,9 +29,9 @@ namespace ToDoList.Controllers
     }
 
     [HttpPost("/items")]
-    public ActionResult Create(string description)
+    public ActionResult Create(string description, DateTime date)
     {
-      Item newItem = new Item (description);
+      Item newItem = new Item (description,date);
       newItem.Save();
       return RedirectToAction("Index");
     }

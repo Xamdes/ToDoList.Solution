@@ -51,7 +51,7 @@ namespace ToDoList
 
   public static class DBConfiguration
   {
-    private static string _connectionString = "server=localhost;user id=root;password=root;port=8889;database=sc_todolist;";
+    private static string _connectionString = "server=localhost;user id=root;password=root;port=8889;database=sc_todolist;Convert Zero Datetime=True;";
 
     public static string GetConnection()
     {
@@ -65,7 +65,7 @@ namespace ToDoList
 
     public static void DefaultConnection()
     {
-      _connectionString = "server=localhost;user id=root;password=root;port=8889;database=sc_todolist;";
+      _connectionString = "server=localhost;user id=root;password=root;port=8889;database=sc_todolist;Convert Zero Datetime=True;";
     }
   }
 }

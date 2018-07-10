@@ -9,11 +9,13 @@ namespace ToDoList.Models
   {
     private int _id;
     private string _description;
+    private DateTime _date;
 
-    public Item(string description, int Id = 0)
+    public Item(string description, DateTime date, int Id = 0)
     {
       _id = Id;
       _description = description;
+      _date = date;
     }
 
     // Getters and Setters will go here
@@ -28,7 +30,8 @@ namespace ToDoList.Models
       {
         int itemId = rdr.GetInt32(0);
         string itemDescription = rdr.GetString(1);
-        Item newItem = new Item(itemDescription, itemId);
+        DateTime date = rdr.GetDateTime(2);
+        Item newItem = new Item(itemDescription,date, itemId);
         allItems.Add(newItem);
       }
       DB.CloseConnection();
@@ -51,6 +54,16 @@ namespace ToDoList.Models
       return _description;
     }
 
+    public string GetDate()
+    {
+      string tempString = _date.ToString("MM/dd/yyyy");
+      if(tempString == "01/01/0001")
+      {
+        return "N/A";
+      }
+      return tempString;
+    }
+
     public void SetDescription(string newDescription)
     {
       _description = newDescription;
@@ -59,8 +72,9 @@ namespace ToDoList.Models
     public void Save()
     {
       DB.OpenConnection();
-      DB.SetCommand(@"INSERT INTO items (description) VALUES (@Description);");
+      DB.SetCommand(@"INSERT INTO items (description,date) VALUES (@Description,@Date);");
       DB.AddParameter("@Description", _description);
+      DB.AddParameter("@Date", _date);
       DB.RunSqlCommand();
       DB.CloseConnection();
     }
@@ -69,6 +83,7 @@ namespace ToDoList.Models
     {
       int itemId = -1;
       string itemDescription = "";
+      DateTime date = new DateTime(0);
       DB.OpenConnection();
       DB.SetCommand(@"SELECT * FROM items WHERE id=@thisId;");
       DB.AddParameter("@thisId",id);
@@ -77,9 +92,10 @@ namespace ToDoList.Models
       {
         itemId = rdr.GetInt32(0);
         itemDescription = rdr.GetString(1);
+        date = rdr.GetDateTime(2);
       }
       DB.CloseConnection();
-      return (new Item(itemDescription,itemId));
+      return (new Item(itemDescription,date,itemId));
 
     }
 
