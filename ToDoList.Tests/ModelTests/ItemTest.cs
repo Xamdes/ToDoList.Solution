@@ -12,15 +12,15 @@ namespace ToDoList.Tests
     {
 
     }
-    [AssemblyInitialize]
-    public void ItemTests()
+    [ClassInitialize]
+    public static void ItemTests(TestContext ts)
     {
       DBConfiguration.SetConnection("server=localhost;user id=root;password=root;port=8889;database=sc_todolist_test;");
     }
     [ClassCleanup]
     public static void Cleanup()
     {
-      Item.ClearAll();
+      //Item.ClearAll();
     }
     [TestMethod]
     public void Return_True()
@@ -68,6 +68,23 @@ namespace ToDoList.Tests
 
       //Assert
       Assert.AreEqual(newItem.GetDescription(), savedItem.GetDescription());
+    }
+    [TestMethod]
+    public void Edit_UpdatesItemInDatabase_String()
+    {
+      //Arrange
+      string firstDescription = "Walk the Dog";
+      Item testItem = new Item(firstDescription);
+      testItem.Save();
+      string secondDescription = "Mow the lawn";
+
+      //Act
+      testItem.Edit(secondDescription);
+
+      string result = Item.Find(testItem.GetId()).GetDescription();
+
+      //Assert
+      Assert.AreEqual(secondDescription , result);
     }
   }
 }

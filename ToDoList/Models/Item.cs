@@ -18,12 +18,19 @@ namespace ToDoList.Models
       _date = date;
     }
 
+    public Item(string description, int Id = 0)
+    {
+      _id = Id;
+      _description = description;
+      _date = new DateTime(1);
+    }
+
     public static List<Item> GetAll(string orderBy = "id", string order = "ASC")
     {
       List<Item> allItems = new List<Item>{};
       DB.OpenConnection();
       DB.SetCommand(@"SELECT * FROM items ORDER BY "+orderBy+" "+order+";");
-      MySqlDataReader rdr = DB.ReadConnection();
+      MySqlDataReader rdr = DB.ReadSqlCommand();
       while(rdr.Read())
       {
         int itemId = rdr.GetInt32(0);
@@ -74,6 +81,13 @@ namespace ToDoList.Models
       DB.AddParameter("@Description", _description);
       DB.AddParameter("@Date", _date);
       DB.RunSqlCommand();
+      DB.ResetCommand();
+      DB.SetCommand(@"SELECT Max(id) FROM items;");
+      MySqlDataReader rdr = DB.ReadSqlCommand();
+      while(rdr.Read())
+      {
+        _id = rdr.GetInt32(0);
+      }
       DB.CloseConnection();
     }
 
@@ -85,7 +99,7 @@ namespace ToDoList.Models
       DB.OpenConnection();
       DB.SetCommand(@"SELECT * FROM items WHERE id=@thisId;");
       DB.AddParameter("@thisId",id);
-      MySqlDataReader rdr = DB.ReadConnection();
+      MySqlDataReader rdr = DB.ReadSqlCommand();
       while(rdr.Read())
       {
         itemId = rdr.GetInt32(0);
@@ -109,6 +123,17 @@ namespace ToDoList.Models
       DB.SetCommand(commandText);
       DB.RunSqlCommand();
       DB.CloseConnection();
+    }
+
+    public void Edit(string newDescription)
+    {
+      DB.OpenConnection();
+      DB.SetCommand(@"UPDATE items SET description = @newDescription WHERE id = @searchId;");
+      DB.AddParameter("@newDescription",newDescription);
+      DB.AddParameter("@searchId",_id);
+      DB.RunSqlCommand();
+      DB.CloseConnection();
+      _description = newDescription;
     }
 
     public override bool Equals(System.Object otherItem)

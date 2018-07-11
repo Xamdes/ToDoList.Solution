@@ -33,6 +33,11 @@ namespace ToDoList.Models
       _cmd = null;
     }
 
+    public static void ResetCommand()
+    {
+      _cmd = _conn.CreateCommand() as MySqlCommand;
+    }
+
     public static void AddParameter(string name, Object parameterValue)
     {
       _cmd.Parameters.Add(new MySqlParameter(name, parameterValue));
@@ -48,7 +53,7 @@ namespace ToDoList.Models
       _cmd.ExecuteNonQuery();
     }
 
-    public static MySqlDataReader ReadConnection()
+    public static MySqlDataReader ReadSqlCommand()
     {
       return (_cmd.ExecuteReader() as MySqlDataReader);
     }
