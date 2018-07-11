@@ -1,6 +1,8 @@
 using System;
-using MySql.Data.MySqlClient;
+using System.Collections;
 using System.Collections.Generic;
+using MySql.Data.MySqlClient;
+using System.Linq;
 
 
 namespace ToDoList.Models
@@ -108,12 +110,10 @@ namespace ToDoList.Models
       }
       DB.CloseConnection();
       return (new Item(itemDescription,date,itemId));
-
     }
 
     public static void ClearAll(bool saveUniqueIds = true)
     {
-      //_instances.Clear();
       string commandText = @"DELETE FROM items";
       DB.OpenConnection();
       if(!saveUniqueIds)
@@ -121,6 +121,24 @@ namespace ToDoList.Models
         commandText = @"TRUNCATE TABLE items;";
       }
       DB.SetCommand(commandText);
+      DB.RunSqlCommand();
+      DB.CloseConnection();
+    }
+
+    public static void DeleteId(int deleteId)
+    {
+      DB.OpenConnection();
+      DB.SetCommand(@"DELETE FROM items WHERE id=@id");
+      DB.AddParameter("@id",deleteId);
+      DB.RunSqlCommand();
+      DB.CloseConnection();
+    }
+
+    public void Delete()
+    {
+      DB.OpenConnection();
+      DB.SetCommand(@"DELETE FROM items WHERE id=@id");
+      DB.AddParameter("@id",_id);
       DB.RunSqlCommand();
       DB.CloseConnection();
     }
