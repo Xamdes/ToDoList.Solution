@@ -40,9 +40,9 @@ namespace ToDoList.Models
 
     public void Save()
     {
-      List<string> values = new List<string>(){"@Name"};
-      List<Object> parameters = new List<Object>(){_name};
-      DB.SaveToTable(_tableName,"description,date,category_id",values,parameters);
+      List<string> columns = new List<string>(){"@Name"};
+      List<Object> values = new List<Object>(){_name};
+      DB.SaveToTable(_tableName,"description,date,category_id",columns,values);
       _id = DB.LastInsertId(_tableName);
     }
   }

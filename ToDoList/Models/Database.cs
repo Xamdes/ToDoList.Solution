@@ -101,9 +101,9 @@ namespace ToDoList.Models
 
     public static void SaveToTable(string tableName,string columns,List<string> values,List<Object> parameters)
     {
-      string valueString = string.Join(",",values);
+      string valueNames = string.Join(",",values);
       OpenConnection();
-      SetCommand(@"INSERT INTO "+tableName+" ("+columns+") VALUES ("+valueString+");");
+      SetCommand(@"INSERT INTO "+tableName+" ("+columns+") VALUES ("+valueNames+");");
       for(int i = 0; i<parameters.Count();i++)
       {
         AddParameter(values[i], parameters[i]);

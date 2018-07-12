@@ -93,9 +93,10 @@ namespace ToDoList.Models
 
     public void Save()
     {
-      List<string> values = new List<string>(){"@Description","@Date","@Category"};
-      List<Object> parameters = new List<Object>(){_description,_date,_categoryId};
-      DB.SaveToTable(_tableName,"description,date,category_id",values,parameters);
+      string columns = "description,date,category_id";
+      List<string> valueNames = new List<string>(){"@Description","@Date","@Category"};
+      List<Object> values = new List<Object>(){_description,_date,_categoryId};
+      DB.SaveToTable(_tableName,columns,valueNames,values);
       _id = DB.LastInsertId(_tableName);
     }
 
