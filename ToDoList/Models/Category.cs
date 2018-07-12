@@ -6,7 +6,6 @@ using System.Linq;
 
 namespace ToDoList.Models
 {
-
   public class Category
   {
     private static string _tableName = "categories";
@@ -33,8 +32,23 @@ namespace ToDoList.Models
       _itemList.Add(newItem);
     }
 
-    public List<Item> GetItems()
+    public List<Item> GetAllItems(string tableName, string orderBy = "id", string order = "ASC")
     {
+      List<Item> allItems = new List<Item>{};
+      DB.OpenConnection();
+      DB.SetCommand(@"SELECT * FROM items WHERE category_id=@id ORDER BY "+orderBy+" "+order+";");
+      DB.AddParameter("@id",_id);
+      MySqlDataReader rdr = DB.ReadSqlCommand();
+      while(rdr.Read())
+      {
+        int itemId = rdr.GetInt32(0);
+        string itemDescription = rdr.GetString(1);
+        DateTime date = rdr.GetDateTime(2);
+        Item newItem = new Item(itemDescription,date,itemId);
+        allItems.Add(newItem);
+      }
+      DB.CloseConnection();
+      _itemList = allItems;
       return _itemList;
     }
 
