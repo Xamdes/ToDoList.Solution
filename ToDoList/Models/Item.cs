@@ -68,7 +68,7 @@ namespace ToDoList.Models
     public void SetCategoryId(int newId)
     {
       _categoryId = newId;
-      //Update items database with category id
+      Edit("category", _categoryId);
     }
 
     public string GetDescription()
