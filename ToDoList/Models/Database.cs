@@ -45,6 +45,11 @@ namespace ToDoList.Models
       _cmd.Parameters.Add(new MySqlParameter(name, parameterValue));
     }
 
+    public static void AddParameter(MySqlParameter para)
+    {
+      _cmd.Parameters.Add(para);
+    }
+
     public static void SetCommand(string commandText)
     {
       _cmd.CommandText = commandText;
@@ -62,12 +67,63 @@ namespace ToDoList.Models
 
     public static void Edit(string tableName,int id, string what,  Object editValue)
     {
-      DB.OpenConnection();
-      DB.SetCommand(@"UPDATE "+tableName+" SET "+what+" = @updateValue WHERE id = @searchId;");
-      DB.AddParameter("@searchId",id);
-      DB.AddParameter("@updateValue",editValue);
-      DB.RunSqlCommand();
-      DB.CloseConnection();
+      OpenConnection();
+      SetCommand(@"UPDATE "+tableName+" SET "+what+" = @updateValue WHERE id = @searchId;");
+      AddParameter("@searchId",id);
+      AddParameter("@updateValue",editValue);
+      RunSqlCommand();
+      CloseConnection();
+    }
+
+    public static void ClearTable(string tableName, bool saveUniqueIds = true)
+    {
+      OpenConnection();
+      if(saveUniqueIds)
+      {
+        SetCommand(@"DELETE FROM "+tableName+";");
+      }
+      else
+      {
+        SetCommand(@"TRUNCATE TABLE "+tableName+";");
+      }
+      RunSqlCommand();
+      CloseConnection();
+    }
+
+    public static void DeleteById(string tableName, int deleteId)
+    {
+      OpenConnection();
+      SetCommand(@"DELETE FROM "+tableName+" WHERE id=@id");
+      AddParameter("@id",deleteId);
+      RunSqlCommand();
+      CloseConnection();
+    }
+
+    public static void SaveToTable(string tableName,string columns,List<string> values,List<Object> parameters)
+    {
+      string valueString = string.Join(",",values);
+      OpenConnection();
+      SetCommand(@"INSERT INTO "+tableName+" ("+columns+") VALUES ("+valueString+");");
+      for(int i = 0; i<parameters.Count();i++)
+      {
+        AddParameter(values[i], parameters[i]);
+      }
+      RunSqlCommand();
+      CloseConnection();
+    }
+
+    public static int LastInsertId(string tableName, string sid = "id")
+    {
+      int id = -1;
+      OpenConnection();
+      SetCommand(@"SELECT Max("+sid+") FROM "+tableName+";");
+      MySqlDataReader rdr = ReadSqlCommand();
+      while(rdr.Read())
+      {
+        id = rdr.GetInt32(0);
+      }
+      CloseConnection();
+      return id;
     }
   }
 }

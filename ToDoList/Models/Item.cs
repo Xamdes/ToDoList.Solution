@@ -9,6 +9,7 @@ namespace ToDoList.Models
 {
   public class Item
   {
+    private static string _tableName = "items";
     private int _id;
     private int _categoryId;
     private string _description;
@@ -92,20 +93,10 @@ namespace ToDoList.Models
 
     public void Save()
     {
-      DB.OpenConnection();
-      DB.SetCommand(@"INSERT INTO items (description,date,category_id) VALUES (@Description,@Date,@Category);");
-      DB.AddParameter("@Description", _description);
-      DB.AddParameter("@Date", _date);
-      DB.AddParameter("@Category", _categoryId);
-      DB.RunSqlCommand();
-      DB.ResetCommand();
-      DB.SetCommand(@"SELECT Max(id) FROM items;");
-      MySqlDataReader rdr = DB.ReadSqlCommand();
-      while(rdr.Read())
-      {
-        _id = rdr.GetInt32(0);
-      }
-      DB.CloseConnection();
+      List<string> values = new List<string>(){"@Description","@Date","@Category"};
+      List<Object> parameters = new List<Object>(){_description,_date,_categoryId};
+      DB.SaveToTable(_tableName,"description,date,category_id",values,parameters);
+      _id = DB.LastInsertId(_tableName);
     }
 
     public static Item Find(int id)
@@ -129,80 +120,34 @@ namespace ToDoList.Models
 
     public static void ClearAll(bool saveUniqueIds = true)
     {
-      string commandText = @"DELETE FROM items";
-      DB.OpenConnection();
-      if(!saveUniqueIds)
-      {
-        commandText = @"TRUNCATE TABLE items;";
-      }
-      DB.SetCommand(commandText);
-      DB.RunSqlCommand();
-      DB.CloseConnection();
+      DB.ClearTable(_tableName,saveUniqueIds);
     }
 
     public static void DeleteId(int deleteId)
     {
-      DB.OpenConnection();
-      DB.SetCommand(@"DELETE FROM items WHERE id=@id");
-      DB.AddParameter("@id",deleteId);
-      DB.RunSqlCommand();
-      DB.CloseConnection();
+      DB.DeleteById(_tableName,deleteId);
     }
 
     public void Delete()
     {
-      DB.OpenConnection();
-      DB.SetCommand(@"DELETE FROM items WHERE id=@id");
-      DB.AddParameter("@id",_id);
-      DB.RunSqlCommand();
-      DB.CloseConnection();
+      DB.DeleteById(_tableName,_id);
     }
 
-    // public void Edit(string what, Object editValue)
-    // {
-    //   string editing = "";
-    //   DB.OpenConnection();
-    //   switch(what.ToLower())
-    //   {
-    //     case "category":
-    //     editing = "category_id";
-    //     _categoryId = (int)editValue;
-    //     DB.AddParameter("@updateValue",_categoryId);
-    //     break;
-    //     case "date":
-    //     editing = "date";
-    //     _date = (editValue as DateTime);
-    //     DB.AddParameter("@updateValue",_date);
-    //     break;
-    //     case "description":
-    //     editing = "description";
-    //     _description = editValue.ToString();
-    //     DB.AddParameter("@updateValue",_description);
-    //     break;
-    //   }
-    //   if(editing != "")
-    //   {
-    //     DB.SetCommand(@"UPDATE items SET "+editing+" = @updateValue WHERE id = @searchId;");
-    //     DB.AddParameter("@searchId",_id);
-    //     DB.RunSqlCommand();
-    //   }
-    //   DB.CloseConnection();
-    // }
     public void Edit(string what, Object editValue)
     {
       switch(what.ToLower())
       {
         case "category":
         _categoryId = (int)editValue;
-        DB.Edit("items",_id,"category_id",_categoryId);
+        DB.Edit(_tableName,_id,"category_id",_categoryId);
         break;
         case "date":
         _date = (DateTime)editValue;
-        DB.Edit("items",_id,"date",_date);
+        DB.Edit(_tableName,_id,"date",_date);
         break;
         case "description":
         _description = editValue.ToString();
-        DB.Edit("items",_id,"description",_description);
+        DB.Edit(_tableName,_id,"description",_description);
         break;
       }
     }

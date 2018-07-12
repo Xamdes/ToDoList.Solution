@@ -9,6 +9,7 @@ namespace ToDoList.Models
 
   public class Category
   {
+    private static string _tableName = "categories";
     private int _id;
     private string _name;
     private List<Item> _itemList;
@@ -39,18 +40,10 @@ namespace ToDoList.Models
 
     public void Save()
     {
-      DB.OpenConnection();
-      DB.SetCommand(@"INSERT INTO categories (category) VALUES (@Name);");
-      DB.AddParameter("@Name", _name);
-      DB.RunSqlCommand();
-      DB.ResetCommand();
-      DB.SetCommand(@"SELECT Max(id) FROM categories;");
-      MySqlDataReader rdr = DB.ReadSqlCommand();
-      while(rdr.Read())
-      {
-        _id = rdr.GetInt32(0);
-      }
-      DB.CloseConnection();
+      List<string> values = new List<string>(){"@Name"};
+      List<Object> parameters = new List<Object>(){_name};
+      DB.SaveToTable(_tableName,"description,date,category_id",values,parameters);
+      _id = DB.LastInsertId(_tableName);
     }
   }
 }
