@@ -10,6 +10,7 @@ namespace ToDoList.Models
   public class Item
   {
     private int _id;
+    private int _categoryId;
     private string _description;
     private DateTime _date;
 
@@ -18,6 +19,7 @@ namespace ToDoList.Models
       _id = Id;
       _description = description;
       _date = date;
+      _categoryId = -1;
     }
 
     public Item(string description, int Id = 0)
@@ -25,6 +27,7 @@ namespace ToDoList.Models
       _id = Id;
       _description = description;
       _date = new DateTime(1);
+      _categoryId = -1;
     }
 
     public static List<Item> GetAll(string orderBy = "id", string order = "ASC")
@@ -56,6 +59,17 @@ namespace ToDoList.Models
       return _id;
     }
 
+    public int GetCategoryId()
+    {
+      return _categoryId;
+    }
+
+    public void SetCategoryId(int newId)
+    {
+      _categoryId = newId;
+      //Update items database with category id
+    }
+
     public string GetDescription()
     {
       return _description;
@@ -79,9 +93,10 @@ namespace ToDoList.Models
     public void Save()
     {
       DB.OpenConnection();
-      DB.SetCommand(@"INSERT INTO items (description,date) VALUES (@Description,@Date);");
+      DB.SetCommand(@"INSERT INTO items (description,date,category_id) VALUES (@Description,@Date,@Category);");
       DB.AddParameter("@Description", _description);
       DB.AddParameter("@Date", _date);
+      DB.AddParameter("@Category", _categoryId);
       DB.RunSqlCommand();
       DB.ResetCommand();
       DB.SetCommand(@"SELECT Max(id) FROM items;");
@@ -143,15 +158,53 @@ namespace ToDoList.Models
       DB.CloseConnection();
     }
 
-    public void Edit(string newDescription)
+    // public void Edit(string what, Object editValue)
+    // {
+    //   string editing = "";
+    //   DB.OpenConnection();
+    //   switch(what.ToLower())
+    //   {
+    //     case "category":
+    //     editing = "category_id";
+    //     _categoryId = (int)editValue;
+    //     DB.AddParameter("@updateValue",_categoryId);
+    //     break;
+    //     case "date":
+    //     editing = "date";
+    //     _date = (editValue as DateTime);
+    //     DB.AddParameter("@updateValue",_date);
+    //     break;
+    //     case "description":
+    //     editing = "description";
+    //     _description = editValue.ToString();
+    //     DB.AddParameter("@updateValue",_description);
+    //     break;
+    //   }
+    //   if(editing != "")
+    //   {
+    //     DB.SetCommand(@"UPDATE items SET "+editing+" = @updateValue WHERE id = @searchId;");
+    //     DB.AddParameter("@searchId",_id);
+    //     DB.RunSqlCommand();
+    //   }
+    //   DB.CloseConnection();
+    // }
+    public void Edit(string what, Object editValue)
     {
-      DB.OpenConnection();
-      DB.SetCommand(@"UPDATE items SET description = @newDescription WHERE id = @searchId;");
-      DB.AddParameter("@newDescription",newDescription);
-      DB.AddParameter("@searchId",_id);
-      DB.RunSqlCommand();
-      DB.CloseConnection();
-      _description = newDescription;
+      switch(what.ToLower())
+      {
+        case "category":
+        _categoryId = (int)editValue;
+        DB.Edit("items",_id,"category_id",_categoryId);
+        break;
+        case "date":
+        _date = (DateTime)editValue;
+        DB.Edit("items",_id,"date",_date);
+        break;
+        case "description":
+        _description = editValue.ToString();
+        DB.Edit("items",_id,"description",_description);
+        break;
+      }
     }
 
     public override bool Equals(System.Object otherItem)

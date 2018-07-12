@@ -59,6 +59,16 @@ namespace ToDoList.Models
     {
       return (_cmd.ExecuteReader() as MySqlDataReader);
     }
+
+    public static void Edit(string tableName,int id, string what,  Object editValue)
+    {
+      DB.OpenConnection();
+      DB.SetCommand(@"UPDATE "+tableName+" SET "+what+" = @updateValue WHERE id = @searchId;");
+      DB.AddParameter("@searchId",id);
+      DB.AddParameter("@updateValue",editValue);
+      DB.RunSqlCommand();
+      DB.CloseConnection();
+    }
   }
 }
 
