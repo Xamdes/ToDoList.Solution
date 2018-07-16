@@ -35,6 +35,7 @@ namespace ToDoList.Models
     {
       List<Object> objects = new List<Object>(){};
       DB.ReadTable("items",DelegateGetAll,objects);
+      //Requires System.Linq Creates a new list and casts Object to type Item
       return objects.Cast<Item>().ToList();
     }
 
