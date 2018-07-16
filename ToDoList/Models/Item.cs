@@ -35,7 +35,11 @@ namespace ToDoList.Models
     {
       List<Object> objects = new List<Object>(){};
       DB.ReadTable("items",DelegateGetAll,objects);
-      //Requires System.Linq Creates a new list and casts Object to type Item
+      /*
+      Requires System.Linq Creates a new list and casts Object to type Item
+      Linq creates extra functionality for arrays and lists
+      https://msdn.microsoft.com/en-us/library/system.linq.immutablearrayextensions(v=vs.111).aspx
+      */
       return objects.Cast<Item>().ToList();
     }
 
