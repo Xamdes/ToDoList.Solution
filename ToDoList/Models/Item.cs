@@ -33,20 +33,23 @@ namespace ToDoList.Models
 
     public static List<Item> GetAll(string orderBy = "id", string order = "ASC")
     {
-      List<Item> allItems = new List<Item>{};
-      DB.OpenConnection();
-      DB.SetCommand(@"SELECT * FROM items ORDER BY "+orderBy+" "+order+";");
-      MySqlDataReader rdr = DB.ReadSqlCommand();
-      while(rdr.Read())
-      {
+      List<Object> objects = new List<Object>(){};
+      DB.ReadTable("items",DelegateGetAll,objects);
+      return objects.Cast<Item>().ToList();
+    }
+
+
+    public static void DelegateGetAll(MySqlDataReader rdr,List<Object> objects)
+    {
+        string itemDescription = "No Name";
         int itemId = rdr.GetInt32(0);
-        string itemDescription = rdr.GetString(1);
+        if(!rdr.IsDBNull(1))
+        {
+          itemDescription = rdr.GetString(1);
+        }
         DateTime date = rdr.GetDateTime(2);
         Item newItem = new Item(itemDescription,date,itemId);
-        allItems.Add(newItem);
-      }
-      DB.CloseConnection();
-      return allItems;
+        objects.Add(newItem);
     }
 
     //Check if Unit Test setup correctly

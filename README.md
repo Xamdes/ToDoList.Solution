@@ -18,6 +18,21 @@
     * optionally resets auto-increment
   * List all items on front end webpage
 
+## Database
+
+  * CREATE TABLE `sc_todolist`.`items` ( `id` INT NOT NULL AUTO_INCREMENT , `description` VARCHAR(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL , `date` DATE NULL , `category_id` INT NULL , PRIMARY KEY (`id`)) ENGINE = InnoDB;
+
+  * CREATE TABLE `sc_todolist`.`categories` ( `id` INT NOT NULL AUTO_INCREMENT , `category` VARCHAR(255) NULL , PRIMARY KEY (`id`)) ENGINE = InnoDB;
+
+## NuGet Config
+
+<?xml version="1.0" encoding="utf-8"?>
+<configuration>
+  <packageSources>
+    <add key="nuget.org" value="https://api.nuget.org/v3/index.json" protocolVersion="3" />
+  </packageSources>
+</configuration>
+
 ## License
 
 MIT License

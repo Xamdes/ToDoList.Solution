@@ -7,11 +7,14 @@ using ToDoList;
 
 namespace ToDoList.Models
 {
+
   public class DB
   {
     private static MySqlConnection _conn;
     private static MySqlCommand _cmd;
     private static string _connectionString = DBConfiguration.GetConnection();
+    public delegate void Del(MySqlDataReader rdr, List<Object> objects);
+
 
     public static MySqlConnection GetConnection()
     {
@@ -63,6 +66,18 @@ namespace ToDoList.Models
     public static MySqlDataReader ReadSqlCommand()
     {
       return (_cmd.ExecuteReader() as MySqlDataReader);
+    }
+
+    public static void ReadTable(string tableName,Del callback, List<Object> objects, string orderBy = "id", string order = "ASC")
+    {
+      OpenConnection();
+      SetCommand(@"SELECT * FROM "+tableName+" ORDER BY "+orderBy+" "+order+";");
+      MySqlDataReader rdr = ReadSqlCommand();
+      while(rdr.Read())
+      {
+        callback(rdr,objects);
+      }
+      CloseConnection();
     }
 
     public static void Edit(string tableName,int id, string what,  Object editValue)
